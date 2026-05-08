@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2PAC GAME - یاری تۆپاک</title>
+    <style>
+        :root {
+            --blue: #1e3a8a;
+            --purple: #581c87;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * { box-sizing: border-box; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Tahoma', sans-serif;
+            color: white; overflow: hidden;
+            height: 100vh;
+            background: linear-gradient(45deg, var(--blue), var(--purple), #111, var(--purple), var(--blue));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .bg-text {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20vw; font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            z-index: -1; filter: blur(5px);
+            user-select: none;
+        }
+
+        .page {
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            height: 100vh; width: 100%; padding: 20px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+        }
+
+        .active { display: flex; opacity: 1; }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 30px; border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px; width: 90%;
+        }
+
+        button {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white; padding: 12px 25px;
+            border-radius: 15px; cursor: pointer;
+            font-size: 18px; margin-top: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .input-area {
+            display: flex; gap: 10px; margin-bottom: 10px; align-items: center;
+        }
+        #nameInput {
+            flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.4); color: white; outline: none;
+        }
+        .btn-action {
+            width: 45px; height: 45px; font-size: 24px; padding: 0; display: flex;
+            align-items: center; justify-content: center; margin-top: 0;
+        }
+
+        .name-list-display {
+            background: rgba(0,0,0,0.2); border-radius: 15px; padding: 10px;
+            max-height: 120px; overflow-y: auto; margin-bottom: 15px; display: flex;
+            flex-wrap: wrap; gap: 5px; justify-content: center;
+        }
+        .tag {
+            background: var(--purple); padding: 5px 10px; border-radius: 10px; font-size: 14px;
+        }
+
+        .wheel-box { position: relative; width: 350px; height: 350px; }
+        canvas { 
+            width: 100%; height: 100%; border-radius: 50%; 
+            border: 8px solid var(--glass-border); 
+            filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
+        }
+        .pointer {
+            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            font-size: 40px; color: #ffeb3b; z-index: 10;
+        }
+
+        .choices-container { display: none; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+        .choice-card {
+            width: 120px; height: 80px; background: var(--glass);
+            border: 1px solid var(--glass-border); border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 24px; font-weight: bold; padding: 5px; text-align: center;
+        }
+
+        .manual-kick-top { width: 100%; margin-bottom: 15px; display: none; }
+        select { background: #111; color: white; padding: 8px; border-radius: 10px; border: 1px solid var(--glass-border); }
+
+        .name-reveal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: none; align-items: center;
+            justify-content: center; z-index: 200; font-size: 50px; font-weight: bold;
+            text-shadow: 0 0 20px var(--purple);
+        }
+
+        .footer-name { position: fixed; bottom: 10px; font-size: 12px; color: rgba(255,255,255,0.5); }
+        
+        .restart-btn { background: #10b981; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-text">2PAC</div>
+
+    <div class="page active" id="page1">
+        <div class="glass-card">
+            <h1>بەخێربێی بۆ یاری 2PAC</h1>
+            <p>ڕێنمایی و یاساکان:</p>
+            <ul style="text-align: right;">
+                <li>ناو بەشێوەی ڕاندۆم هەڵدەبژێردرێت.</li>
+                <li>دوای هەڵبژاردن، یەکێک لە ٣ کارتەکە دیاری بکە.</li>
+            </ul>
+            <button onclick="go(2)">دەستپێکردن</button>
+        </div>
+    </div>
+
+    <div class="page" id="page2">
+        <div class="glass-card">
+            <h2>ناوی یاریزانەکان</h2>
+            <div class="input-area">
+                <input type="text" id="nameInput" placeholder="ناو لێرە بنووسە...">
+                <button class="btn-action" style="background: #10b981;" onclick="addName()">+</button>
+                <button class="btn-action" style="background: #ef4444;" onclick="popName()">-</button>
+            </div>
+            <div class="name-list-display" id="nameTags"></div>
+            <button onclick="prepareWheel()" style="width: 100%; background: var(--purple);">لاپەڕەی دواتر</button>
+        </div>
+    </div>
+
+    <div class="page" id="page3">
+        <div class="manual-kick-top" id="kickZone">
+            <select id="kickSelect"></select>
+            <button onclick="kickPerson()" style="background: #ef4444; font-size: 12px; padding: 5px 10px; margin: 0;">دەرکردن</button>
+        </div>
+
+        <div id="winnerAnnounce" style="display:none; font-size: 24px; text-align: center; margin-bottom: 20px;"></div>
+        <div class="wheel-box" id="wheelBox">
+            <div class="pointer">▼</div>
+            <canvas id="wheelCanvas"></canvas>
+        </div>
+        <button id="spinBtn" onclick="spin()">بیسوڕێنە 🎡</button>
+
+        <div class="choices-container" id="choicesBox">
+            <div class="choice-card" onclick="reveal(this)">1</div>
+            <div class="choice-card" onclick="reveal(this)">2</div>
+            <div class="choice-card" onclick="reveal(this)">3</div>
+        </div>
+        
+        <button class="restart-btn" id="restartBtn" onclick="go(2)">دووبارە دەستپێکردنەوە 🔄</button>
+    </div>
+
+    <div class="name-reveal" id="nameReveal" onclick="this.style.display='none'"></div>
+    <div class="footer-name">کوێخە لیوای تایبەت</div>
+
+    <script>
+        let players = [];
+        let currentRotation = 0;
+        let selectedIndex = -1;
+
+        function go(p) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            const target = document.getElementById('page' + p);
+            target.classList.add('active');
+            
+            if(p === 2) {
+                document.getElementById('winnerAnnounce').style.display = 'none';
+                document.getElementById('restartBtn').style.display = 'none';
+                document.getElementById('wheelBox').style.display = 'block';
+                document.getElementById('spinBtn').style.display = 'block';
+            }
+        }
+
+        function addName() {
+            const input = document.getElementById('nameInput');
+            if(input.value.trim() !== "") {
+                players.push(input.value.trim());
+                input.value = "";
+                updateTags();
+            }
+        }
+
+        function popName() {
+            players.pop();
+            updateTags();
+        }
+
+        function updateTags() {
+            const container = document.getElementById('nameTags');
+            container.innerHTML = players.map(p => `<div class="tag">${p}</div>`).join('');
+        }
+
+        function prepareWheel() {
+            if (players.length < 2) return alert("تکایە لایەنی کەم ٢ ناو بنووسە");
+            go(3);
+            drawWheel();
+        }
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const size = players.length;
+            const arc = (Math.PI * 2) / size;
+            canvas.width = 600; canvas.height = 600;
+
+            players.forEach((name, i) => {
+                const angle = i * arc + currentRotation;
+                ctx.beginPath();
+                ctx.fillStyle = i % 2 === 0 ? "#1e3a8a" : "#581c87";
+                ctx.moveTo(300, 300);
+                ctx.arc(300, 300, 300, angle, angle + arc);
+                ctx.fill();
+                ctx.strokeStyle = "rgba(255,255,255,0.1)";
+                ctx.lineWidth = 2; ctx.stroke();
+
+                ctx.save();
+                ctx.translate(300, 300);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right"; ctx.fillStyle = "white"; 
+                ctx.font = "bold 22px Tahoma";
+                ctx.fillText(name, 280, 10);
+                ctx.restore();
+            });
+            const select = document.getElementById('kickSelect');
+            select.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join('');
+        }
+
+        function spin() {
+            if (players.length <= 1) return;
+            const spinAngle = Math.random() * 5000 + 4000;
+            let start = null;
+            const duration = 4000; 
+            document.getElementById('spinBtn').disabled = true;
+            document.getElementById('kickZone').style.display = 'none';
+
+            function animate(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                const time = Math.min(progress / duration, 1);
+                const easeOut = 1 - Math.pow(1 - time, 3);
+                const currentSpin = spinAngle * easeOut;
+                currentRotation = (currentSpin * Math.PI / 180);
+                
+                drawWheel();
+                if (time < 1) requestAnimationFrame(animate);
+                else finalizeSpin();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function finalizeSpin() {
+            const arc = (Math.PI * 2) / players.length;
+            let normalized = (currentRotation % (Math.PI * 2));
+            selectedIndex = Math.floor((Math.PI * 2 - normalized - Math.PI/2) / arc) % players.length;
+            if(selectedIndex < 0) selectedIndex += players.length;
+
+            const nameDiv = document.getElementById('nameReveal');
+            nameDiv.innerText = players[selectedIndex];
+            nameDiv.style.display = 'flex';
+            
+            setTimeout(() => {
+                document.getElementById('choicesBox').style.display = 'flex';
+                document.getElementById('kickZone').style.display = 'block';
+                resetChoiceCards();
+            }, 1000);
+        }
+
+        function resetChoiceCards() {
+            const cards = document.querySelectorAll('.choice-card');
+            const options = ["دەرکراو ❌", "کەسێک دەرکە 💀", "وشەیەک بڵێ 2PAC دڵخۆش بکات! 😍"];
+            options.sort(() => Math.random() - 0.5);
+            
+            cards.forEach((c, i) => {
+                c.innerText = (i + 1).toString();
+                c.style.background = "var(--glass)";
+                c.onclick = function() { 
+                    this.innerText = options[i];
+                    this.style.background = "#581c87"; 
+                    this.style.fontSize = "14px";
+                    setTimeout(() => {
+                        if (options[i].includes("دەرکراو")) players.splice(selectedIndex, 1);
+                        checkStatus();
+                    }, 2000);
+                };
+            });
+        }
+
+        function kickPerson() {
+            const name = document.getElementById('kickSelect').value;
+            players = players.filter(p => p !== name);
+            checkStatus();
+        }
+
+        function checkStatus() {
+            if (players.length === 1) {
+                document.getElementById('winnerAnnounce').innerHTML = `پیرۆزە! 👏 <br> پاڵەوانی ئەمجارە: <b>${players[0]}</b> <br> تەواو!`;
+                document.getElementById('winnerAnnounce').style.display = 'block';
+                document.getElementById('kickZone').style.display = 'none';
+                document.getElementById('wheelBox').style.display = 'none';
+                document.getElementById('spinBtn').style.display = 'none';
+                document.getElementById('choicesBox').style.display = 'none';
+                document.getElementById('restartBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('choicesBox').style.display = 'none';
+                document.getElementById('spinBtn').disabled = false;
+                drawWheel();
+            }
+        }
+    </script>
+</body>
+</html>
