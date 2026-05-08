@@ -53,79 +53,60 @@
             background: var(--glass);
             backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            padding: 30px; border-radius: 25px;
+            padding: 25px; border-radius: 25px;
             text-align: center;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            max-width: 500px; width: 90%;
+            max-width: 500px; width: 95%;
         }
 
         button {
             background: var(--glass);
             border: 1px solid var(--glass-border);
-            color: white; padding: 12px 25px;
-            border-radius: 15px; cursor: pointer;
-            font-size: 18px; margin-top: 10px;
+            color: white; padding: 10px 20px;
+            border-radius: 12px; cursor: pointer;
+            font-size: 16px; margin-top: 5px;
             backdrop-filter: blur(5px);
         }
 
-        button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-        }
+        button:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
-        .input-area {
-            display: flex; gap: 10px; margin-bottom: 10px; align-items: center;
-        }
-        #nameInput {
-            flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--glass-border);
+        .input-area { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; width: 100%; }
+        #nameInput, #nameInputPage3 {
+            flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--glass-border);
             background: rgba(0,0,0,0.4); color: white; outline: none;
         }
-        .btn-action {
-            width: 45px; height: 45px; font-size: 24px; padding: 0; display: flex;
-            align-items: center; justify-content: center; margin-top: 0;
-        }
+        .btn-action { width: 40px; height: 40px; font-size: 20px; padding: 0; display: flex; align-items: center; justify-content: center; margin: 0; }
 
         .name-list-display {
             background: rgba(0,0,0,0.2); border-radius: 15px; padding: 10px;
-            max-height: 120px; overflow-y: auto; margin-bottom: 15px; display: flex;
+            max-height: 100px; overflow-y: auto; margin-bottom: 10px; display: flex;
             flex-wrap: wrap; gap: 5px; justify-content: center;
         }
-        .tag {
-            background: var(--purple); padding: 5px 10px; border-radius: 10px; font-size: 14px;
-        }
+        .tag { background: var(--purple); padding: 4px 8px; border-radius: 8px; font-size: 12px; }
 
-        .wheel-box { position: relative; width: 350px; height: 350px; }
-        canvas { 
-            width: 100%; height: 100%; border-radius: 50%; 
-            border: 8px solid var(--glass-border); 
-            filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
-        }
-        .pointer {
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-            font-size: 40px; color: #ffeb3b; z-index: 10;
-        }
+        .wheel-box { position: relative; width: 300px; height: 300px; margin: 10px 0; }
+        canvas { width: 100%; height: 100%; border-radius: 50%; border: 6px solid var(--glass-border); }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 30px; color: #ffeb3b; z-index: 10; }
 
-        .choices-container { display: none; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+        .choices-container { display: none; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
         .choice-card {
-            width: 120px; height: 80px; background: var(--glass);
+            width: 100px; height: 80px; background: var(--glass);
             border: 1px solid var(--glass-border); border-radius: 15px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 24px; font-weight: bold; padding: 5px; text-align: center;
+            cursor: pointer; font-size: 14px; font-weight: bold; padding: 5px; text-align: center;
         }
 
-        .manual-kick-top { width: 100%; margin-bottom: 15px; display: none; }
-        select { background: #111; color: white; padding: 8px; border-radius: 10px; border: 1px solid var(--glass-border); }
+        .control-panel { width: 100%; margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 15px; }
 
         .name-reveal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); display: none; align-items: center;
-            justify-content: center; z-index: 200; font-size: 50px; font-weight: bold;
-            text-shadow: 0 0 20px var(--purple);
+            justify-content: center; z-index: 200; font-size: 40px; font-weight: bold;
+            text-shadow: 0 0 20px var(--purple); cursor: pointer;
         }
 
         .footer-name { position: fixed; bottom: 10px; font-size: 12px; color: rgba(255,255,255,0.5); }
-        
-        .restart-btn { background: #10b981; margin-top: 20px; display: none; }
+        .restart-btn { background: #10b981; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -135,8 +116,7 @@
     <div class="page active" id="page1">
         <div class="glass-card">
             <h1>بەخێربێی بۆ یاری 2PAC</h1>
-            <p>ڕێنمایی و یاساکان:</p>
-            <ul style="text-align: right;">
+            <ul style="text-align: right; font-size: 14px;">
                 <li>ناو بەشێوەی ڕاندۆم هەڵدەبژێردرێت.</li>
                 <li>دوای هەڵبژاردن، یەکێک لە ٣ کارتەکە دیاری بکە.</li>
             </ul>
@@ -149,63 +129,78 @@
             <h2>ناوی یاریزانەکان</h2>
             <div class="input-area">
                 <input type="text" id="nameInput" placeholder="ناو لێرە بنووسە...">
-                <button class="btn-action" style="background: #10b981;" onclick="addName()">+</button>
+                <button class="btn-action" style="background: #10b981;" onclick="addName('nameInput')">+</button>
                 <button class="btn-action" style="background: #ef4444;" onclick="popName()">-</button>
             </div>
             <div class="name-list-display" id="nameTags"></div>
-            <button onclick="prepareWheel()" style="width: 100%; background: var(--purple);">لاپەڕەی دواتر</button>
+            <button onclick="prepareWheel()" style="width: 100%; background: var(--purple);">لاپەڕەی چەرخەکە</button>
         </div>
     </div>
 
     <div class="page" id="page3">
-        <div class="manual-kick-top" id="kickZone">
-            <select id="kickSelect"></select>
-            <button onclick="kickPerson()" style="background: #ef4444; font-size: 12px; padding: 5px 10px; margin: 0;">دەرکردن</button>
+        <div class="control-panel">
+            <div class="input-area">
+                <input type="text" id="nameInputPage3" placeholder="ناو زیاد بکە...">
+                <button class="btn-action" style="background: #10b981;" onclick="addName('nameInputPage3')">+</button>
+            </div>
+            <div style="display:flex; gap:5px; align-items:center;">
+                <select id="kickSelect" style="flex:1; background:#111; color:white; border-radius:8px; padding:5px;"></select>
+                <button onclick="kickPerson()" style="background:#ef4444; margin:0; padding:5px 10px;">دەرکردن</button>
+            </div>
         </div>
 
-        <div id="winnerAnnounce" style="display:none; font-size: 24px; text-align: center; margin-bottom: 20px;"></div>
+        <div id="winnerAnnounce" style="display:none; font-size: 20px; text-align: center; margin-bottom: 10px;"></div>
+        
         <div class="wheel-box" id="wheelBox">
             <div class="pointer">▼</div>
             <canvas id="wheelCanvas"></canvas>
         </div>
-        <button id="spinBtn" onclick="spin()">بیسوڕێنە 🎡</button>
+        
+        <button id="spinBtn" onclick="handleSpinClick()">بیسوڕێنە 🎡</button>
 
         <div class="choices-container" id="choicesBox">
-            <div class="choice-card" onclick="reveal(this)">1</div>
-            <div class="choice-card" onclick="reveal(this)">2</div>
-            <div class="choice-card" onclick="reveal(this)">3</div>
+            <div class="choice-card" id="card0">1</div>
+            <div class="choice-card" id="card1">2</div>
+            <div class="choice-card" id="card2">3</div>
         </div>
         
         <button class="restart-btn" id="restartBtn" onclick="go(2)">دووبارە دەستپێکردنەوە 🔄</button>
     </div>
 
-    <div class="name-reveal" id="nameReveal" onclick="this.style.display='none'"></div>
+    <div class="name-reveal" id="nameReveal" onclick="closeReveal()"></div>
     <div class="footer-name">کوێخە لیوای تایبەت</div>
 
     <script>
         let players = [];
         let currentRotation = 0;
         let selectedIndex = -1;
+        let isSpinning = false;
+        let showingResult = false;
 
         function go(p) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             const target = document.getElementById('page' + p);
             target.classList.add('active');
-            
-            if(p === 2) {
-                document.getElementById('winnerAnnounce').style.display = 'none';
-                document.getElementById('restartBtn').style.display = 'none';
-                document.getElementById('wheelBox').style.display = 'block';
-                document.getElementById('spinBtn').style.display = 'block';
-            }
+            if(p === 2) resetGameUI();
         }
 
-        function addName() {
-            const input = document.getElementById('nameInput');
+        function resetGameUI() {
+            document.getElementById('winnerAnnounce').style.display = 'none';
+            document.getElementById('restartBtn').style.display = 'none';
+            document.getElementById('wheelBox').style.display = 'block';
+            document.getElementById('spinBtn').style.display = 'block';
+            document.getElementById('spinBtn').disabled = false;
+            document.getElementById('choicesBox').style.display = 'none';
+            showingResult = false;
+        }
+
+        function addName(inputId) {
+            const input = document.getElementById(inputId);
             if(input.value.trim() !== "") {
                 players.push(input.value.trim());
                 input.value = "";
                 updateTags();
+                if(document.getElementById('page3').classList.contains('active')) drawWheel();
             }
         }
 
@@ -217,6 +212,8 @@
         function updateTags() {
             const container = document.getElementById('nameTags');
             container.innerHTML = players.map(p => `<div class="tag">${p}</div>`).join('');
+            const select = document.getElementById('kickSelect');
+            select.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join('');
         }
 
         function prepareWheel() {
@@ -229,8 +226,11 @@
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
             const size = players.length;
-            const arc = (Math.PI * 2) / size;
+            const arc = (Math.PI * 2) / (size || 1);
             canvas.width = 600; canvas.height = 600;
+
+            ctx.clearRect(0, 0, 600, 600);
+            if(size === 0) return;
 
             players.forEach((name, i) => {
                 const angle = i * arc + currentRotation;
@@ -250,25 +250,34 @@
                 ctx.fillText(name, 280, 10);
                 ctx.restore();
             });
-            const select = document.getElementById('kickSelect');
-            select.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join('');
+        }
+
+        function handleSpinClick() {
+            if (showingResult) {
+                // ئەگەر ئەنجامی کارتەکە دیار بوو، کارتەکان ون بکە و ئامادەی بکە بۆ خولی داهاتوو
+                document.getElementById('choicesBox').style.display = 'none';
+                document.getElementById('spinBtn').innerText = "بیسوڕێنە 🎡";
+                showingResult = false;
+                drawWheel();
+            } else {
+                spin();
+            }
         }
 
         function spin() {
-            if (players.length <= 1) return;
+            if (players.length <= 1 || isSpinning) return;
+            isSpinning = true;
             const spinAngle = Math.random() * 5000 + 4000;
             let start = null;
             const duration = 4000; 
             document.getElementById('spinBtn').disabled = true;
-            document.getElementById('kickZone').style.display = 'none';
 
             function animate(timestamp) {
                 if (!start) start = timestamp;
                 const progress = timestamp - start;
                 const time = Math.min(progress / duration, 1);
                 const easeOut = 1 - Math.pow(1 - time, 3);
-                const currentSpin = spinAngle * easeOut;
-                currentRotation = (currentSpin * Math.PI / 180);
+                currentRotation = (spinAngle * easeOut * Math.PI / 180);
                 
                 drawWheel();
                 if (time < 1) requestAnimationFrame(animate);
@@ -278,6 +287,7 @@
         }
 
         function finalizeSpin() {
+            isSpinning = false;
             const arc = (Math.PI * 2) / players.length;
             let normalized = (currentRotation % (Math.PI * 2));
             selectedIndex = Math.floor((Math.PI * 2 - normalized - Math.PI/2) / arc) % players.length;
@@ -286,52 +296,58 @@
             const nameDiv = document.getElementById('nameReveal');
             nameDiv.innerText = players[selectedIndex];
             nameDiv.style.display = 'flex';
-            
-            setTimeout(() => {
-                document.getElementById('choicesBox').style.display = 'flex';
-                document.getElementById('kickZone').style.display = 'block';
-                resetChoiceCards();
-            }, 1000);
         }
 
-        function resetChoiceCards() {
-            const cards = document.querySelectorAll('.choice-card');
-            const options = ["دەرکراو ❌", "کەسێک دەرکە 💀", "وشەیەک بڵێ 2PAC دڵخۆش بکات! 😍"];
+        function closeReveal() {
+            document.getElementById('nameReveal').style.display = 'none';
+            document.getElementById('choicesBox').style.display = 'flex';
+            document.getElementById('spinBtn').disabled = false;
+            setupCards();
+        }
+
+        function setupCards() {
+            const options = ["دەرکرای! ❌", "مایەوە! ✅", "توپاک پرسیارێکی لێ بکە! 😍"];
             options.sort(() => Math.random() - 0.5);
             
-            cards.forEach((c, i) => {
-                c.innerText = (i + 1).toString();
-                c.style.background = "var(--glass)";
-                c.onclick = function() { 
+            for(let i=0; i<3; i++) {
+                const card = document.getElementById(`card${i}`);
+                card.innerText = (i + 1);
+                card.style.background = "var(--glass)";
+                card.onclick = function() {
                     this.innerText = options[i];
-                    this.style.background = "#581c87"; 
-                    this.style.fontSize = "14px";
-                    setTimeout(() => {
-                        if (options[i].includes("دەرکراو")) players.splice(selectedIndex, 1);
-                        checkStatus();
-                    }, 2000);
+                    this.style.background = "#581c87";
+                    showingResult = true;
+                    
+                    // جێبەجێکردنی ئەنجامەکە بێ ئەلێرت
+                    if (options[i].includes("دەرکرای")) {
+                        players.splice(selectedIndex, 1);
+                    }
+                    
+                    document.getElementById('spinBtn').innerText = "خولی داهاتوو 🔄";
+                    checkStatus();
                 };
-            });
+            }
         }
 
         function kickPerson() {
             const name = document.getElementById('kickSelect').value;
             players = players.filter(p => p !== name);
+            if(players.length === 0) go(2);
+            drawWheel();
             checkStatus();
         }
 
         function checkStatus() {
             if (players.length === 1) {
-                document.getElementById('winnerAnnounce').innerHTML = `پیرۆزە! 👏 <br> پاڵەوانی ئەمجارە: <b>${players[0]}</b> <br> تەواو!`;
-                document.getElementById('winnerAnnounce').style.display = 'block';
-                document.getElementById('kickZone').style.display = 'none';
-                document.getElementById('wheelBox').style.display = 'none';
-                document.getElementById('spinBtn').style.display = 'none';
-                document.getElementById('choicesBox').style.display = 'none';
-                document.getElementById('restartBtn').style.display = 'inline-block';
+                setTimeout(() => {
+                    document.getElementById('winnerAnnounce').innerHTML = `پیرۆزە! 👏 <br> پاڵەوان: <b>${players[0]}</b>`;
+                    document.getElementById('winnerAnnounce').style.display = 'block';
+                    document.getElementById('wheelBox').style.display = 'none';
+                    document.getElementById('spinBtn').style.display = 'none';
+                    document.getElementById('choicesBox').style.display = 'none';
+                    document.getElementById('restartBtn').style.display = 'inline-block';
+                }, 500);
             } else {
-                document.getElementById('choicesBox').style.display = 'none';
-                document.getElementById('spinBtn').disabled = false;
                 drawWheel();
             }
         }
